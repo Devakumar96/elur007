@@ -21,7 +21,35 @@ const cards =
 // ==========================================
 // FIND NEXT BUS
 // ==========================================
+document.addEventListener("DOMContentLoaded", function(){
 
+    const toggleBtn = document.getElementById("toggleBtn");
+    const dots = document.getElementById("dots");
+    const moreText = document.getElementById("moreText");
+
+    toggleBtn.addEventListener("click", function(){
+
+        if(moreText.style.display === "none"){
+
+            moreText.style.display = "inline";
+            dots.style.display = "none";
+
+            toggleBtn.innerHTML =
+            '<i class="fas fa-angle-up"></i>';
+
+        }else{
+
+            moreText.style.display = "none";
+            dots.style.display = "inline";
+
+            toggleBtn.innerHTML =
+            '<i class="fas fa-angle-down"></i>';
+
+        }
+
+    });
+
+});
 
 function getNextBus(schedule) {
 

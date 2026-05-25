@@ -823,7 +823,17 @@ body {
     font-size:20px;
     transition:0.3s;
 }
+/* MOBILE */
+@media(max-width:576px){
 
+    .back-home-btn{
+        width:90%;
+        justify-content:center;
+        padding:14px;
+        font-size:16px;
+    }
+
+}
 
 .toggle-icon-btn:hover{
     transform:scale(1.1);

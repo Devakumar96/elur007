@@ -311,7 +311,7 @@ const busSchedule = [
     {
         busNumber: "3B",
         route: "கோபி → சத்தி",
-        time: "09:00"
+        time: "22:00"
     },
 
 

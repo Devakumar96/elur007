@@ -312,15 +312,64 @@ body {
     animation-play-state: paused;
 
 }
-.info-scroll {
+/* .info-scroll {
 
     display: flex;
 
     width: max-content;
 
-    animation: scrollLeft 20s linear infinite;
+    animation: scrollLeft 50s linear infinite;
 
+} */
+.info-scroll {
+    display: flex;
+    width: max-content;
+    animation: marquee 30s linear infinite;
 }
+
+@keyframes marquee {
+    0% {
+        transform: translate3d(0,0,0);
+    }
+    100% {
+        transform: translate3d(-50%,0,0);
+    }
+}
+
+.hero-section{
+    min-height: 80vh;
+    background:
+    linear-gradient(
+        rgba(0,0,0,0.35),
+        rgba(0,0,0,0.45)
+    ),
+    url('assets/images/elur-banner.png');
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 768px){
+
+    .hero-section{
+        min-height: 60vh;
+        background-position: center center;
+    }
+
+    .hero-section h1{
+        font-size: 2rem;
+    }
+
+    .hero-section p{
+        font-size: 1rem;
+    }
+}
+
+
+
+
+
 /* Each Box */
 
 .info-box {
@@ -823,6 +872,10 @@ body {
     font-size:20px;
     transition:0.3s;
 }
+
+
+
+
 /* MOBILE */
 @media(max-width:576px){
 

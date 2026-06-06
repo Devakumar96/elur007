@@ -1117,3 +1117,104 @@ body {
 }
 
 }
+
+/* E-Sevai Page */
+
+.services{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:15px;
+}
+
+.services span{
+    background:#eef4ff;
+    color:#0d47a1;
+    padding:8px 14px;
+    border-radius:25px;
+    font-size:14px;
+    font-weight:600;
+}
+
+.free-service-box{
+    background:#fff8e1;
+    border:2px solid #ffc107;
+    padding:20px;
+    border-radius:15px;
+}
+
+.free-service-box h5{
+    color:#d97706;
+    font-weight:700;
+}
+
+.free-badge{
+    display:inline-block;
+    margin-top:10px;
+    background:#ffc107;
+    color:#000;
+    font-weight:bold;
+    padding:8px 18px;
+    border-radius:25px;
+}
+
+@media(max-width:768px){
+
+    .services{
+        gap:8px;
+    }
+
+    .services span{
+        font-size:13px;
+    }
+
+}
+@media (min-width:992px){
+
+    .full-banner{
+        width:100%;
+        height:auto !important;
+        object-fit:contain !important;
+    }
+
+    .business-image-box{
+        height:auto;
+    }
+
+}
+/* Full Width Krishna Banner */
+
+.krishna-banner{
+    width:100%;
+    height:80vh;
+    background:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.krishna-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+/* Tablet */
+@media (max-width:991px){
+
+    .krishna-img{
+        height:320px;
+    }
+
+}
+
+/* Mobile */
+@media (max-width:576px){
+
+    .krishna-img{
+        height:220px;
+    }
+
+}

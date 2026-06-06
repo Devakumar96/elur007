@@ -1218,3 +1218,29 @@ body {
     }
 
 }
+.star-health-highlight{
+    background: linear-gradient(135deg,#ffd700,#ffb300);
+    color:#000;
+    font-weight:700;
+    padding:10px 18px;
+    border-radius:30px;
+    border:2px solid #ff9800;
+    box-shadow:0 4px 12px rgba(255,193,7,0.4);
+    display:inline-block;
+    animation:pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow{
+    0%{
+        transform:scale(1);
+        box-shadow:0 4px 12px rgba(255,193,7,0.4);
+    }
+    50%{
+        transform:scale(1.05);
+        box-shadow:0 6px 20px rgba(255,193,7,0.8);
+    }
+    100%{
+        transform:scale(1);
+        box-shadow:0 4px 12px rgba(255,193,7,0.4);
+    }
+}

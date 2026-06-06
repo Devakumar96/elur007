@@ -1,283 +1,113 @@
-
 // ==========================================
 // COPY PHONE NUMBER
 // ==========================================
-
 function copyNumber(number) {
-
-    navigator.clipboard.writeText(number);
-
-    alert(number + " copied");
-
-}
-// ==========================================
-// GET ALL CARDS
-// ==========================================
-
-const cards =
-    document.querySelectorAll(".bus-card");
-
-
-// ==========================================
-// FIND NEXT BUS
-// ==========================================
-document.addEventListener("DOMContentLoaded", function(){
-
-    const toggleBtn = document.getElementById("toggleBtn");
-    const dots = document.getElementById("dots");
-    const moreText = document.getElementById("moreText");
-
-    toggleBtn.addEventListener("click", function(){
-
-        if(moreText.style.display === "none"){
-
-            moreText.style.display = "inline";
-            dots.style.display = "none";
-
-            toggleBtn.innerHTML =
-            '<i class="fas fa-angle-up"></i>';
-
-        }else{
-
-            moreText.style.display = "none";
-            dots.style.display = "inline";
-
-            toggleBtn.innerHTML =
-            '<i class="fas fa-angle-down"></i>';
-
-        }
-
+    navigator.clipboard.writeText(number).then(() => {
+        alert(number + " copied!");
+    }).catch(() => {
+        alert(number + " - please copy manually.");
     });
+}
 
-});
+// ==========================================
+// RUN ON DOM READY
+// ==========================================
+document.addEventListener("DOMContentLoaded", function () {
 
-function getNextBus(schedule) {
+    // ---- NVR READ MORE TOGGLE ----
+    const nvrToggleBtn = document.getElementById("nvrToggleBtn");
+    if (nvrToggleBtn) {
+        const nvrDots = document.getElementById("nvr-dots");
+        const nvrMore = document.getElementById("nvr-more");
 
-    const now =
-        new Date();
+        nvrToggleBtn.addEventListener("click", function () {
+            const isHidden = nvrMore.style.display === "none";
+            nvrMore.style.display = isHidden ? "inline" : "none";
+            nvrDots.style.display = isHidden ? "none" : "inline";
+            nvrToggleBtn.innerHTML = isHidden
+                ? '<i class="fas fa-angle-up"></i>'
+                : '<i class="fas fa-angle-down"></i>';
+            nvrToggleBtn.setAttribute("aria-expanded", isHidden ? "true" : "false");
+        });
+    }
 
-    let nextBus = null;
-
-    for (let bus of schedule) {
-
-        const [hours, minutes] =
-            bus.time.split(":");
-
-        const busTime =
-            new Date();
-
-        // Today's Bus Time
-        busTime.setHours(hours);
-        busTime.setMinutes(minutes);
-        busTime.setSeconds(0);
-
-        // Future Bus Found
-        if (busTime > now) {
-
-            nextBus = {
-
-                ...bus,
-
-                busTime
-
-            };
-
-            break;
-
+    // ---- BUS COUNTDOWN (only on index page) ----
+    const cards = document.querySelectorAll(".bus-card");
+    if (cards.length >= 2) {
+        function getNextBus(schedule) {
+            const now = new Date();
+            for (let bus of schedule) {
+                const [hours, minutes] = bus.time.split(":");
+                const busTime = new Date();
+                busTime.setHours(hours, minutes, 0, 0);
+                if (busTime > now) {
+                    return { ...bus, busTime };
+                }
+            }
+            // No more buses today — show first bus tomorrow
+            const first = schedule[0];
+            const [h, m] = first.time.split(":");
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(h, m, 0, 0);
+            return { ...first, busTime: tomorrow };
         }
 
+        function updateCard(card, schedule) {
+            const nextBus = getNextBus(schedule);
+            const now = new Date().getTime();
+            const diff = nextBus.busTime.getTime() - now;
+
+            const hours   = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            card.querySelector(".bus-number").innerText = nextBus.busNumber;
+            card.querySelector(".route-text").innerText  = nextBus.route;
+            card.querySelector(".countdown").innerText   =
+                `${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        function tick() {
+            updateCard(cards[0], busSchedule);
+            updateCard(cards[1], சத்திToகோபிSchedule);
+        }
+
+        tick();
+        setInterval(tick, 1000);
     }
 
+    // ---- THEME TOGGLER ----
+    const themeToggler = document.querySelector(".theme-toggler");
+    const toggleBtn    = document.querySelector(".toggle-btn");
 
-    // ==========================================
-    // IF NO BUS LEFT TODAY
-    // TAKE FIRST BUS OF NEXT DAY
-    // ==========================================
+    if (themeToggler && toggleBtn) {
+        // Open / Close panel
+        function openClose() {
+            themeToggler.classList.toggle("active");
+        }
+        toggleBtn.addEventListener("click", openClose);
+        toggleBtn.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") openClose();
+        });
 
-    if (!nextBus) {
-
-        const firstBus =
-            schedule[0];
-
-        const [hours, minutes] =
-            firstBus.time.split(":");
-
-        const tomorrowBusTime =
-            new Date();
-
-        // Add Next Day
-        tomorrowBusTime.setDate(
-            tomorrowBusTime.getDate() + 1
-        );
-
-        tomorrowBusTime.setHours(hours);
-        tomorrowBusTime.setMinutes(minutes);
-        tomorrowBusTime.setSeconds(0);
-
-        nextBus = {
-
-            ...firstBus,
-
-            busTime: tomorrowBusTime
-
-        };
-
+        // Color buttons
+        const themeButtons = document.querySelectorAll(".theme-btn");
+        themeButtons.forEach(btn => {
+            function applyColor() {
+                const color = btn.getAttribute("data-color");
+                document.documentElement.style.setProperty("--pumpkin-spice", color);
+                // Also update navbar, button, footer, countdown and info-icon
+                document.documentElement.style.setProperty("--button-bg", color);
+                // Store so toggler stays consistent visually
+                themeButtons.forEach(b => b.style.outline = "none");
+                btn.style.outline = "3px solid #333";
+            }
+            btn.addEventListener("click", applyColor);
+            btn.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" || e.key === " ") applyColor();
+            });
+        });
     }
-
-    return nextBus;
-
-}
-
-
-// ==========================================
-// UPDATE SINGLE CARD
-// ==========================================
-
-function updateCard(card, schedule) {
-
-    const nextBus =
-        getNextBus(schedule);
-
-    const busNumber =
-        card.querySelector(".bus-number");
-
-    const routeText =
-        card.querySelector(".route-text");
-
-    const countdown =
-        card.querySelector(".countdown");
-
-
-  
-
-    // Update Bus Details
-
-    busNumber.innerText =
-        nextBus.busNumber;
-
-    routeText.innerText =
-        nextBus.route;
-
-
-    // Time Difference
-
-    const now =
-        new Date().getTime();
-
-    const distance =
-        nextBus.busTime.getTime() - now;
-
-
-    // Hours
-
-    const hours =
-        Math.floor(
-            distance / (1000 * 60 * 60)
-        );
-
-    // Minutes
-
-    const minutes =
-        Math.floor(
-            (distance % (1000 * 60 * 60))
-            / (1000 * 60)
-        );
-
-    // Seconds
-
-    const seconds =
-        Math.floor(
-            (distance % (1000 * 60))
-            / 1000
-        );
-
-
-    // Display
-
-    countdown.innerText =
-        `${hours}h ${minutes}m ${seconds}s`;
-
-}
-
-
-// ==========================================
-// LIVE UPDATE
-// ==========================================
-
-function startLiveCountdown() {
-
-    // Card 1 → Gobi to Sathy
-
-    updateCard(
-        cards[0],
-        busSchedule
-    );
-
-    // Card 2 → Sathy to Gobi
-
-    updateCard(
-        cards[1],
-        சத்திToகோபிSchedule
-    );
-
-}
-
-
-// Initial Load
-
-startLiveCountdown();
-
-
-// Update Every Second
-
-setInterval(() => {
-
-    startLiveCountdown();
-
-}, 1000);
-
-// ==========================================
-// THEME TOGGLER
-// ==========================================
-
-const themeToggler =
-    document.querySelector(".theme-toggler");
-
-const toggleBtn =
-    document.querySelector(".toggle-btn");
-
-
-// Open / Close
-
-toggleBtn.onclick = () => {
-
-    themeToggler.classList.toggle("active");
-
-};
-
-
-// ==========================================
-// COLOR CHANGE
-// ==========================================
-
-const themeButtons =
-    document.querySelectorAll(".theme-btn");
-
-
-themeButtons.forEach(button => {
-
-    button.onclick = () => {
-
-        const color =
-            button.getAttribute("data-color");
-
-        // Change Main Theme Color
-
-        document.documentElement.style.setProperty(
-            "--pumpkin-spice",
-            color
-        );
-
-    };
 
 });

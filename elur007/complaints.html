@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Raise Complaint</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Raise Complaint</h2>
+
+    <form id="complaintForm">
+
+        <input type="text"
+               id="street"
+               class="form-control mb-3"
+               placeholder="Street Name"
+               required>
+
+        <select id="category"
+                class="form-control mb-3"
+                required>
+
+            <option value="">Select Category</option>
+            <option>Street Light</option>
+            <option>Water Supply</option>
+            <option>Road Damage</option>
+            <option>Garbage</option>
+
+        </select>
+
+        <textarea id="description"
+                  class="form-control mb-3"
+                  placeholder="Describe the issue"
+                  required></textarea>
+
+        <input type="tel"
+               id="mobile"
+               class="form-control mb-3"
+               placeholder="Mobile Number"
+               required>
+
+        <button class="btn btn-primary">
+            Submit Complaint
+        </button>
+
+    </form>
+
+    <div id="result" class="mt-4"></div>
+
+</div>
+
+<script type="module" src="js/complaint.js"></script>
+
+</body>
+</html>

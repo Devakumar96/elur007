@@ -6,8 +6,12 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+/* =========================
+   Firebase Config
+   ========================= */
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDF2jnPIKTCuN3vsjqEMbxoJYHNE0rZkck",
+ apiKey: "AIzaSyDF2jnPIKTCuN3vsjqEMbxoJYHNE0rZkck",
   authDomain: "myelur-complaints.firebaseapp.com",
   projectId: "myelur-complaints",
   storageBucket: "myelur-complaints.firebasestorage.app",
@@ -18,44 +22,98 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+/* =========================
+   Global Data
+   ========================= */
+
 let allComplaints = [];
+
+/* =========================
+   Initial Load
+   ========================= */
 
 loadPublicComplaints();
 
 document
   .getElementById("categoryFilter")
-  .addEventListener("change", renderComplaints);
+  ?.addEventListener("change", renderComplaints);
+
+/* =========================
+   Load Complaints
+   ========================= */
 
 async function loadPublicComplaints() {
 
-  const snapshot = await getDocs(
-    collection(db, "complaints")
-  );
+  try {
 
-  allComplaints = [];
+    const snapshot = await getDocs(
+      collection(db, "complaints")
+    );
 
-  snapshot.forEach((doc) => {
-    allComplaints.push(doc.data());
-  });
+    allComplaints = [];
 
-  renderComplaints();
+    snapshot.forEach((doc) => {
+      allComplaints.push(doc.data());
+    });
+
+    renderComplaints();
+
+  } catch (error) {
+
+    console.error(error);
+
+    document.getElementById(
+      "publicComplaints"
+    ).innerHTML = `
+      <div class="alert alert-danger">
+        Failed to load complaints.
+      </div>
+    `;
+  }
 }
+
+/* =========================
+   Render Complaints
+   ========================= */
 
 function renderComplaints() {
 
   const selectedCategory =
-    document.getElementById(
-      "categoryFilter"
-    ).value;
+    document.getElementById("categoryFilter")?.value || "All";
 
   const container =
-    document.getElementById(
-      "publicComplaints"
+    document.getElementById("publicComplaints");
+
+  if (!container) return;
+
+  const sortedComplaints = [...allComplaints];
+
+  sortedComplaints.sort((a, b) => {
+
+    const statusOrder = {
+      "Pending": 1,
+      "In Progress": 2,
+      "Resolved": 3
+    };
+
+    const statusCompare =
+      statusOrder[a.status] -
+      statusOrder[b.status];
+
+    if (statusCompare !== 0) {
+      return statusCompare;
+    }
+
+    return (
+      new Date(b.createdAt) -
+      new Date(a.createdAt)
     );
+
+  });
 
   let html = "";
 
-  allComplaints.forEach((data) => {
+  sortedComplaints.forEach((data) => {
 
     if (
       selectedCategory !== "All" &&
@@ -78,20 +136,56 @@ function renderComplaints() {
       badgeClass = "bg-success";
     }
 
+    let icon = "📋";
+
+    switch (data.category) {
+
+      case "Street Light":
+        icon = "💡";
+        break;
+
+      case "Water Supply":
+        icon = "💧";
+        break;
+
+      case "Road Damage":
+        icon = "🛣️";
+        break;
+
+      case "Garbage":
+        icon = "🗑️";
+        break;
+    }
+
     html += `
       <div class="card mb-3 shadow-sm">
 
         <div class="card-body">
 
-          <h5>${data.category}</h5>
+          <h5 class="card-title">
+            ${icon} ${data.category}
+          </h5>
 
-          <p>
+          <p class="mb-2">
             <strong>Street:</strong>
             ${data.street}
           </p>
 
-          <p>
+          <p class="mb-2">
             ${data.description}
+          </p>
+
+          <p class="mb-2">
+            <small class="text-muted">
+              Submitted:
+              ${
+                data.createdAt
+                  ? new Date(
+                      data.createdAt
+                    ).toLocaleDateString()
+                  : "-"
+              }
+            </small>
           </p>
 
           <span class="badge ${badgeClass}">

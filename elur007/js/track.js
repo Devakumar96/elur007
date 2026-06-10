@@ -1,13 +1,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
 import {
-  getFirestore,
-  collection,
-  getDocs
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDF2jnPIKTCuN3vsjqEMbxoJYHNE0rZkck",
+   apiKey: "AIzaSyDF2jnPIKTCuN3vsjqEMbxoJYHNE0rZkck",
   authDomain: "myelur-complaints.firebaseapp.com",
   projectId: "myelur-complaints",
   storageBucket: "myelur-complaints.firebasestorage.app",
@@ -19,68 +21,99 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 document
-.getElementById("searchBtn")
-.addEventListener("click", async () => {
+    .getElementById("searchBtn")
+    .addEventListener("click", trackComplaint);
 
-    const searchId =
-        document
-        .getElementById("complaintId")
+async function trackComplaint() {
+
+    const complaintId =
+        document.getElementById("complaintId")
         .value
         .trim();
 
-    const snapshot =
-        await getDocs(
-            collection(db, "complaints")
-        );
+    const result =
+        document.getElementById("result");
 
-    let found = false;
+    if (!complaintId) {
+
+        result.innerHTML = `
+        <div class="alert alert-warning">
+            Please enter Complaint ID
+        </div>
+        `;
+
+        return;
+    }
+
+    const q = query(
+        collection(db, "complaints"),
+        where("complaintId", "==", complaintId)
+    );
+
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+
+        result.innerHTML = `
+        <div class="alert alert-danger">
+            Complaint not found
+        </div>
+        `;
+
+        return;
+    }
 
     snapshot.forEach((doc) => {
 
         const data = doc.data();
 
-        if (data.complaintId === searchId) {
+        let statusClass = "";
 
-            found = true;
-
-            document.getElementById("result").innerHTML = `
-                <div class="card p-3">
-
-                    <h5>${data.complaintId}</h5>
-
-                    <p>
-                    <strong>Category:</strong>
-                    ${data.category}
-                    </p>
-
-                    <p>
-                    <strong>Street:</strong>
-                    ${data.street}
-                    </p>
-
-                    <p>
-                    <strong>Status:</strong>
-                    ${data.status}
-                    </p>
-
-                    <p>
-                    <strong>Description:</strong>
-                    ${data.description}
-                    </p>
-
-                </div>
-            `;
+        if (data.status === "Pending") {
+            statusClass = "status-pending";
         }
 
+        if (data.status === "In Progress") {
+            statusClass = "status-progress";
+        }
+
+        if (data.status === "Resolved") {
+            statusClass = "status-resolved";
+        }
+
+        result.innerHTML = `
+
+        <div class="card ${statusClass} shadow-sm">
+
+            <div class="card-body">
+
+                <h4>${data.category}</h4>
+
+                <p>
+                    <strong>Complaint ID:</strong>
+                    ${data.complaintId}
+                </p>
+
+                <p>
+                    <strong>Street:</strong>
+                    ${data.street}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    ${data.status}
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    ${data.description}
+                </p>
+
+            </div>
+
+        </div>
+
+        `;
     });
 
-    if (!found) {
-
-        document.getElementById("result").innerHTML = `
-            <div class="alert alert-danger">
-                Complaint Not Found
-            </div>
-        `;
-    }
-
-});
+}

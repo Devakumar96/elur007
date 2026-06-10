@@ -1,52 +1,156 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Raise Complaint</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Raise Complaint - MyElur</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+
+        body {
+            background: #f8f9fa;
+        }
+
+        .complaint-card {
+            border: none;
+            border-radius: 18px;
+        }
+
+        .page-title {
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            font-weight: 600;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        @media (max-width: 768px) {
+
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 <body>
 
-<div class="container mt-5">
-    <h2>Raise Complaint</h2>
+<div class="container py-4">
 
-    <form id="complaintForm">
+    <div class="row justify-content-center">
 
-        <input type="text"
-               id="street"
-               class="form-control mb-3"
-               placeholder="Street Name"
-               required>
+        <div class="col-lg-6 col-md-8 col-12">
 
-        <select id="category"
-                class="form-control mb-3"
-                required>
+            <div class="card shadow complaint-card">
 
-            <option value="">Select Category</option>
-            <option>Street Light</option>
-            <option>Water Supply</option>
-            <option>Road Damage</option>
-            <option>Garbage</option>
+                <div class="card-body p-4">
 
-        </select>
+                    <h2 class="page-title mb-3">
+                        📢 Raise Complaint
+                    </h2>
 
-        <textarea id="description"
-                  class="form-control mb-3"
-                  placeholder="Describe the issue"
-                  required></textarea>
+                    <div class="alert alert-info">
 
-        <input type="tel"
-               id="mobile"
-               class="form-control mb-3"
-               placeholder="Mobile Number"
-               required>
+                        Submit complaints related to
+                        street lights, water supply,
+                        road damage, garbage collection,
+                        and other public issues.
 
-        <button class="btn btn-primary">
-            Submit Complaint
-        </button>
+                    </div>
 
-    </form>
+                    <form id="complaintForm">
 
-    <div id="result" class="mt-4"></div>
+                        <input type="text"
+                               id="street"
+                               class="form-control mb-3"
+                               placeholder="Street Name"
+                               required>
+
+                        <select id="category"
+                                class="form-select mb-3"
+                                required>
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                            <option>
+                                Street Light
+                            </option>
+
+                            <option>
+                                Water Supply
+                            </option>
+
+                            <option>
+                                Road Damage
+                            </option>
+
+                            <option>
+                                Garbage
+                            </option>
+
+                        </select>
+
+                        <textarea id="description"
+                                  class="form-control mb-3"
+                                  rows="4"
+                                  placeholder="Describe the issue"
+                                  required></textarea>
+
+                        <input type="tel"
+                               id="mobile"
+                               class="form-control mb-3"
+                               placeholder="Mobile Number"
+                               required>
+
+                        <button class="btn btn-primary btn-submit">
+                            Submit Complaint
+                        </button>
+                        <div class="text-center mt-3">
+
+    <a href="index.html"
+       class="btn btn-outline-dark">
+
+        🏠 Back to Home
+
+    </a>
+
+</div>
+                    </form>
+
+                    <div id="result" class="mt-4"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 

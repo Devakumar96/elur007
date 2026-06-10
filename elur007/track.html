@@ -1,74 +1,145 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Track Complaint</title>
+<html lang="en">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Track Complaint - MyElur</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    background:#f8f9fa;
+}
+
+/* Main Cards */
+
+.portal-card{
+    border:none;
+    border-radius:18px;
+}
+
+/* Status Colors */
+
+.status-pending{
+    background:#fff3cd !important;
+    border-left:6px solid #ffc107 !important;
+}
+
+.status-progress{
+    background:#cfe2ff !important;
+    border-left:6px solid #0d6efd !important;
+}
+
+.status-resolved{
+    background:#d1e7dd !important;
+    border-left:6px solid #198754 !important;
+}
+
+@media(max-width:768px){
+
+    .container{
+        padding-left:15px;
+        padding-right:15px;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+}
+
+</style>
+
 </head>
+
 <body>
 
-<div class="container mt-5">
+<div class="container py-4">
 
-    <h2>Track Complaint</h2>
+    <div class="mb-4">
 
-    <input
-        type="text"
-        id="complaintId"
-        class="form-control mb-3"
-        placeholder="Enter Complaint ID">
+        <a href="index.html"
+           class="btn btn-outline-secondary">
 
-    <button
-        id="searchBtn"
-        class="btn btn-primary">
-        Search
-    </button>
+            ← Back to Home
 
-    <div id="result" class="mt-4"></div>
+        </a>
+
+    </div>
+
+    <!-- Track Section -->
+
+    <div class="card shadow-sm portal-card mb-4">
+
+        <div class="card-body">
+
+            <h2 class="mb-3">
+                🔍 Track Complaint
+            </h2>
+
+            <input
+                type="text"
+                id="complaintId"
+                class="form-control mb-3"
+                placeholder="Enter Complaint ID">
+
+            <button
+                id="searchBtn"
+                class="btn btn-primary">
+
+                Search Complaint
+
+            </button>
+
+            <div id="result" class="mt-4"></div>
+
+        </div>
+
+    </div>
+
+    <!-- Public Complaints -->
+
+    <div class="card shadow-sm portal-card">
+
+        <div class="card-body">
+
+            <h3 class="mb-3">
+                📢 Public Complaints
+            </h3>
+
+            <select
+                id="categoryFilter"
+                class="form-select mb-4">
+
+                <option value="All">All Complaints</option>
+                <option value="Street Light">Street Light</option>
+                <option value="Water Supply">Water Supply</option>
+                <option value="Road Damage">Road Damage</option>
+                <option value="Garbage">Garbage</option>
+
+            </select>
+
+            <div id="publicComplaints">
+
+                <div class="alert alert-info">
+                    Loading complaints...
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
-<div class="mb-3">
 
-    <select id="categoryFilter" class="form-select">
-
-        <option value="All">
-            All Complaints
-        </option>
-
-        <option value="Street Light">
-            Street Light
-        </option>
-
-        <option value="Water Supply">
-            Water Supply
-        </option>
-
-        <option value="Road Damage">
-            Road Damage
-        </option>
-
-        <option value="Garbage">
-            Garbage
-        </option>
-
-    </select>
-
-</div>
-
-<div id="publicComplaints">
-    Loading...
-</div>
-<h3 class="mt-5">
-📢 Public Complaints
-</h3>
-
-<div id="publicComplaints">
-Loading...
-</div>
-
-<script type="module"
-src="js/public-complaints.js">
-</script>
-
+<script type="module" src="js/public-complaints.js"></script>
 <script type="module" src="js/track.js"></script>
 
 </body>

@@ -36,7 +36,12 @@ async function loadComplaints() {
         );
 
     table.innerHTML = "";
+const mobileContainer =
+document.getElementById(
+"mobileComplaints"
+);
 
+mobileContainer.innerHTML = "";
     let total = 0;
     let pending = 0;
     let progress = 0;
@@ -61,8 +66,68 @@ async function loadComplaints() {
         if (data.status === "Resolved") {
             resolved++;
         }
+        let mobileStatusClass =
+"mobile-pending";
+
+if(data.status === "In Progress"){
+mobileStatusClass =
+"mobile-progress";
+}
+
+if(data.status === "Resolved"){
+mobileStatusClass =
+"mobile-resolved";
+}
+
+mobileContainer.innerHTML += `
+
+<div class="mobile-complaint-card">
+
+    <h6>
+        ${data.complaintId}
+    </h6>
+
+    <p class="mb-1">
+        <strong>Category:</strong>
+        ${data.category}
+    </p>
+
+    <p class="mb-1">
+        <strong>Street:</strong>
+        ${data.street}
+    </p>
+
+    <span class="mobile-status ${mobileStatusClass}">
+        ${data.status}
+    </span>
+
+    <div class="mt-3">
+
+        <button
+            class="btn btn-primary btn-sm me-2"
+            onclick="viewComplaint('${item.id}')">
+
+            View
+
+        </button>
+
+        <button
+            class="btn btn-success btn-sm"
+            onclick="updateStatus('${item.id}')">
+
+            Save
+
+        </button>
+
+    </div>
+
+</div>
+
+`;
 
         table.innerHTML += `
+
+        
         <tr>
 
             <td>${data.complaintId || "-"}</td>

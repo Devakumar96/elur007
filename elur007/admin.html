@@ -32,6 +32,38 @@
     }
 
 }
+.mobile-complaint-card{
+    background: var(--card-bg);
+    border-radius:16px;
+    padding:15px;
+    margin-bottom:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.mobile-complaint-card h6{
+    color:var(--pumpkin-spice);
+    font-weight:700;
+}
+
+.mobile-status{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:.85rem;
+    font-weight:600;
+}
+
+.mobile-pending{
+    background:#fff3cd;
+}
+
+.mobile-progress{
+    background:#cfe2ff;
+}
+
+.mobile-resolved{
+    background:#d1e7dd;
+}
 
 </style>
 
@@ -184,12 +216,14 @@
 </div>
 
 <!-- Complaints Table -->
-
+<div id="mobileComplaints"
+     class="d-block d-md-none">
+</div>
 <div class="card shadow-sm dashboard-table-card">
 
     <div class="card-body">
 
-        <div class="table-container">
+        <div class="table-container d-none d-md-block">
 
             <table class="table table-bordered table-hover">
 

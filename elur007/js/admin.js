@@ -83,9 +83,7 @@ mobileContainer.innerHTML += `
 
 <div class="mobile-complaint-card">
 
-    <h6>
-        ${data.complaintId}
-    </h6>
+    <h6>${data.complaintId}</h6>
 
     <p class="mb-1">
         <strong>Category:</strong>
@@ -102,6 +100,27 @@ mobileContainer.innerHTML += `
     </span>
 
     <div class="mt-3">
+
+        <select
+            class="form-select mb-2"
+            id="mobile-${item.id}">
+
+            <option value="Pending"
+                ${data.status === "Pending" ? "selected" : ""}>
+                Pending
+            </option>
+
+            <option value="In Progress"
+                ${data.status === "In Progress" ? "selected" : ""}>
+                In Progress
+            </option>
+
+            <option value="Resolved"
+                ${data.status === "Resolved" ? "selected" : ""}>
+                Resolved
+            </option>
+
+        </select>
 
         <button
             class="btn btn-primary btn-sm me-2"
@@ -207,16 +226,24 @@ mobileContainer.innerHTML += `
 
 window.updateStatus = async function(docId) {
 
-    const status =
+    let selectElement =
+        document.getElementById(docId);
+
+    if(!selectElement){
+        selectElement =
         document.getElementById(
-            docId
-        ).value;
+            `mobile-${docId}`
+        );
+    }
+
+    const status =
+        selectElement.value;
 
     const updateData = {
         status: status
     };
 
-    if (status === "Resolved") {
+    if(status === "Resolved"){
 
         updateData.resolvedAt =
             new Date().toISOString();

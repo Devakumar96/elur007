@@ -300,15 +300,21 @@
 
 <!-- Bus Timetable Button -->
 <div class="container text-center mb-4">
-    <i class="fas fa-bus-alt bus-timetable-icon"
-       data-bs-toggle="modal"
-       data-bs-target="#busTimetableModal"
-       title="View Bus Timetable">
-    </i>
 
-    <p class="mt-2 fw-bold">
-        View Full Bus Timetable
-    </p>
+    <div class="bus-timetable-wrapper"
+         data-bs-toggle="modal"
+         data-bs-target="#busTimetableModal"
+         role="button"
+         tabindex="0">
+
+        <i class="fas fa-bus-alt"></i>
+
+        <span class="bus-timetable-text">
+            🚌 Click Here To View Bus Timetable
+        </span>
+
+    </div>
+
 </div>
 
 <section class="container my-5">

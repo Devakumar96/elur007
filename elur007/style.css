@@ -637,19 +637,64 @@ body {
 
 }
 
-.bus-timetable-icon{
-    font-size:60px;
-    color:#0d6efd;
+.bus-timetable-wrapper{
+    width:220px;
+    height:220px;
+    margin:auto;
+    border-radius:50%;
+    background:linear-gradient(135deg,#0d6efd,#00c6ff);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
     cursor:pointer;
+    box-shadow:0 0 20px rgba(13,110,253,.5);
+    animation:pulseBus 2s infinite;
     transition:.3s;
+    text-align:center;
+    padding:20px;
 }
 
-.bus-timetable-icon:hover{
-    transform:scale(1.1);
+.bus-timetable-wrapper i{
+    font-size:55px;
+    color:#fff;
+    margin-bottom:12px;
 }
 
-.modal-body img{
-    width:100%;
-    height:auto;
-    object-fit:contain;
+.bus-timetable-wrapper:hover{
+    transform:scale(1.08);
+}
+
+.bus-timetable-text{
+    color:#fff;
+    font-weight:700;
+    font-size:16px;
+    line-height:1.4;
+}
+
+@keyframes pulseBus{
+    0%{
+        box-shadow:0 0 0 0 rgba(13,110,253,.7);
+    }
+    70%{
+        box-shadow:0 0 0 20px rgba(13,110,253,0);
+    }
+    100%{
+        box-shadow:0 0 0 0 rgba(13,110,253,0);
+    }
+}
+
+@media (max-width:576px){
+    .bus-timetable-wrapper{
+        width:150px;
+        height:150px;
+    }
+
+    .bus-timetable-wrapper i{
+        font-size:45px;
+    }
+
+    .bus-timetable-text{
+        font-size:14px;
+    }
 }

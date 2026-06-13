@@ -298,6 +298,18 @@
     </div>
   </section>
 
+<!-- Bus Timetable Button -->
+<div class="container text-center mb-4">
+    <i class="fas fa-bus-alt bus-timetable-icon"
+       data-bs-toggle="modal"
+       data-bs-target="#busTimetableModal"
+       title="View Bus Timetable">
+    </i>
+
+    <p class="mt-2 fw-bold">
+        View Full Bus Timetable
+    </p>
+</div>
 
 <section class="container my-5">
 
@@ -522,6 +534,44 @@
       </div>
     </div>
   </section>
+<!-- BUS TIMETABLE MODAL -->
+<div class="modal fade"
+     id="busTimetableModal"
+     tabindex="-1"
+     aria-labelledby="busTimetableModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="busTimetableModalLabel">
+                    🚌 Bus Timetable
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body text-center p-2">
+
+                <img src="assets/images/bus-timetable.webp"
+                     alt="Bus Timetable"
+                     class="img-fluid rounded">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
 
   <!-- FOOTER -->
   <footer class="footer" role="contentinfo">

@@ -636,3 +636,20 @@ body {
     }
 
 }
+
+.bus-timetable-icon{
+    font-size:60px;
+    color:#0d6efd;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.bus-timetable-icon:hover{
+    transform:scale(1.1);
+}
+
+.modal-body img{
+    width:100%;
+    height:auto;
+    object-fit:contain;
+}
